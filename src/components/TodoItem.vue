@@ -7,7 +7,7 @@
             </div>
         </el-col>
         <el-col :span="20">
-            <span>{{content}}</span>
+            <span>{{ content }}</span>
         </el-col>
         <el-col :span="2" >
             <i class="el-icon-delete" @click="deleteTodoItem"></i>
