@@ -1,60 +1,58 @@
 <template>
     <div>
-        <el-card style="width: 700px;margin-left: auto;margin-right: auto">
-            <div id="frame">
-                <h1 style="text-align: center">Todos</h1>
-                <div id="input frame">
-                    <el-row>
-                        <el-col :span="19">
-                            <el-input size="medium" v-model="todoTitle" @keypress.enter.native="addNewTodoItem"
-                                      placeholder="What needs to be done?"/>
-                        </el-col>
-                        <el-col :span="4" style="margin-left: 10px">
-                            <el-button size="medium" type="primary" @click="addNewTodoItem">submit</el-button>
-                        </el-col>
-                    </el-row>
-                </div>
-                <br/>
-                <el-tabs type="border-card" v-model="activeTabName" @tab-click="showTodoItems">
-                    <el-tab-pane label="All" name="all">
-                        <ul>
-                            <todo-item
-                                    v-for="(item,index) of todoItemsForDisplay"
-                                    :key="index"
-                                    :content="item.title"
-                                    :id="item.id"
-                                    :active="item.active"
-                                    @delete="handelDelete"
-                                    @toggleActiveStatus="handleToggleActiveStatus"/>
-                        </ul>
-                    </el-tab-pane>
-                    <el-tab-pane label="Active" name="active">
-                        <ul>
-                            <todo-item
-                                    v-for="(item,index) of todoItemsForDisplay"
-                                    :key="index"
-                                    :content="item.title"
-                                    :id="item.id"
-                                    :active="item.active"
-                                    @delete="handelDelete"
-                                    @toggleActiveStatus="handleToggleActiveStatus"/>
-                        </ul>
-                    </el-tab-pane>
-                    <el-tab-pane label="Complete" name="complete">
-                        <ul>
-                            <todo-item
-                                    v-for="(item,index) of todoItemsForDisplay"
-                                    :key="index"
-                                    :content="item.title"
-                                    :id="item.id"
-                                    :active="item.active"
-                                    @delete="handelDelete"
-                                    @toggleActiveStatus="handleToggleActiveStatus"/>
-                        </ul>
-                    </el-tab-pane>
-                </el-tabs>
+        <div id="frame">
+            <h1 style="text-align: center">Todos</h1>
+            <div id="input frame">
+                <el-row>
+                    <el-col :span="19">
+                        <el-input size="medium" v-model="todoTitle" @keypress.enter.native="addNewTodoItem"
+                                  placeholder="What needs to be done?"/>
+                    </el-col>
+                    <el-col :span="4" style="margin-left: 10px">
+                        <el-button size="medium" type="primary" @click="addNewTodoItem">submit</el-button>
+                    </el-col>
+                </el-row>
             </div>
-        </el-card>
+            <br/>
+            <el-tabs type="border-card" v-model="activeTabName" @tab-click="showTodoItems">
+                <el-tab-pane label="All" name="all">
+                    <ul>
+                        <todo-item
+                                v-for="(item,index) of todoItemsForDisplay"
+                                :key="index"
+                                :content="item.title"
+                                :id="item.id"
+                                :active="item.active"
+                                @delete="handelDelete"
+                                @toggleActiveStatus="handleToggleActiveStatus"/>
+                    </ul>
+                </el-tab-pane>
+                <el-tab-pane label="Active" name="active">
+                    <ul>
+                        <todo-item
+                                v-for="(item,index) of todoItemsForDisplay"
+                                :key="index"
+                                :content="item.title"
+                                :id="item.id"
+                                :active="item.active"
+                                @delete="handelDelete"
+                                @toggleActiveStatus="handleToggleActiveStatus"/>
+                    </ul>
+                </el-tab-pane>
+                <el-tab-pane label="Complete" name="complete">
+                    <ul>
+                        <todo-item
+                                v-for="(item,index) of todoItemsForDisplay"
+                                :key="index"
+                                :content="item.title"
+                                :id="item.id"
+                                :active="item.active"
+                                @delete="handelDelete"
+                                @toggleActiveStatus="handleToggleActiveStatus"/>
+                    </ul>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
     </div>
 
 </template>
@@ -74,7 +72,7 @@
                 activeTabName: 'all',
             }
         },
-        created(){
+        created() {
             this.showTodoItems()
         },
         methods: {
@@ -120,11 +118,11 @@
 
             showAll() {
                 this.activeTabName = 'all';
-                this.todoItemsForDisplay = this.allTodoItems;
+                this.todoItemsForDisplay = this._.cloneDeep(this.allTodoItems);
             },
             showActive() {
                 this.activeTabName = 'active';
-                this.todoItemsForDisplay = this._.cloneDeep(this.allTodoItems.filter(todoItem => todoItem.active));
+                this.todoItemsForDisplay = this.allTodoItems.filter(todoItem => todoItem.active);
             },
             showComplete() {
                 this.activeTabName = 'complete';
