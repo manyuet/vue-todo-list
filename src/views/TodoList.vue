@@ -53,8 +53,6 @@
                         </ul>
                     </el-tab-pane>
                 </el-tabs>
-
-
             </div>
         </el-card>
     </div>
@@ -70,11 +68,14 @@
         },
         data: function () {
             return {
-                allTodoItems: [],
+                allTodoItems: JSON.parse(localStorage.getItem('allTodoItems')) || [],
                 todoItemsForDisplay: [],
                 todoTitle: '',
                 activeTabName: 'all',
             }
+        },
+        created(){
+            this.showTodoItems()
         },
         methods: {
             addNewTodoItem: function () {
@@ -87,10 +88,12 @@
                 this.todoItemsForDisplay.push(newTodoItem);
                 this.todoTitle = '';
                 this.$message.success('添加成功');
+                this.storageTodoItems();
             },
             handelDelete(id) {
                 this.todoItemsForDisplay = this.todoItemsForDisplay.filter(todoItem => todoItem.id !== id);
                 this.allTodoItems = this.allTodoItems.filter(todoItem => todoItem.id !== id);
+                this.storageTodoItems()
             },
             handleToggleActiveStatus(id) {
                 for (const todoItem of this.allTodoItems) {
@@ -101,7 +104,11 @@
                 }
                 this.showTodoItems();
             },
+            storageTodoItems() {
+                localStorage.setItem('allTodoItems', JSON.stringify(this.allTodoItems));
+            },
             showTodoItems() {
+                this.storageTodoItems();
                 if (this.activeTabName === 'all') {
                     this.showAll()
                 } else if (this.activeTabName === 'active') {
